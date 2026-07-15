@@ -2,6 +2,8 @@
 import express from 'express';
 import cors from 'cors';
 
+import indexRoutes from './routes/indexRoutes.js';
+
 const app = express();
 const PORT = 3000;
 
@@ -9,10 +11,8 @@ const PORT = 3000;
 app.use(cors()); // Let our API comunicates with other websites
 app.use(express.json()); // Translate JSON format to JavaScript
 
-// Test server
-app.get('/', (req, res) => {
-  res.send('To-do list app is running');
-});
+// Use index routes
+app.use('/', indexRoutes);
 
 // Run server
 app.listen(PORT, () => {
