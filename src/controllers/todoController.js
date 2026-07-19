@@ -36,3 +36,26 @@ export const createTodo = async (req, res) => {
     });
   }
 };
+
+// ******************************
+// **** GET ALL TODO (GET) ****
+// ******************************
+export const getAllTodos = async (req, res) => {
+  try {
+    // Search all elements in the collection
+    const todos = await Todo.find({}); // The empty object means all elements
+
+    // Return a success message and todos
+    return res.status(200).json({
+      success: true,
+      message: 'To-do list fetched successfully',
+      data: todos,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Internal Server Error',
+      error: error.message,
+    });
+  }
+};
