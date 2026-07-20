@@ -1,7 +1,11 @@
 // Import dependencies
 import express from 'express';
 // Import functions / logic
-import { createTodo, getAllTodos } from '../controllers/todoController.js';
+import {
+  createTodo,
+  getAllTodos,
+  getTodoById,
+} from '../controllers/todoController.js';
 
 const router = express.Router();
 
@@ -14,6 +18,11 @@ router.post('/add', createTodo);
 // **** GET ALL TODO (GET) ****
 // ******************************
 router.get('/', getAllTodos);
+
+// ******************************
+// **** GET TODO BY ID (GET) ****
+// ******************************
+router.get('/:id', getTodoById);
 
 // Export router
 export default router;
