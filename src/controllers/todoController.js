@@ -1,3 +1,5 @@
+// Import mongoose
+import mongoose, { isValidObjectId } from 'mongoose';
 // Import model
 import Todo from '../models/todoModel.js';
 
@@ -50,6 +52,48 @@ export const getAllTodos = async (req, res) => {
       success: true,
       message: 'To-do list fetched successfully',
       data: todos,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Internal Server Error',
+      error: error.message,
+    });
+  }
+};
+
+// ******************************
+// **** GET TODO BY ID (GET) ****
+// ******************************
+export const getTodoById = async (req, res) => {
+  try {
+    // Get id from route params
+    const { id } = req.params;
+
+    // Validate id with Mongoose
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid To-do ID',
+      });
+    }
+
+    // Get todo by id
+    const todo = await Todo.findById(id);
+
+    // If todo not found
+    if (!todo) {
+      return res.status(404).json({
+        success: false,
+        message: 'To-do not found',
+      });
+    }
+
+    // If todo found
+    return res.status(200).json({
+      success: true,
+      message: 'To-do fetched successfully',
+      data: todo,
     });
   } catch (error) {
     return res.status(500).json({
