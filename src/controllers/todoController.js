@@ -159,3 +159,50 @@ export const updateTodo = async (req, res) => {
     });
   }
 };
+
+// ******************************
+// **** TOGGLE TO-DO (PATCH) ****
+// ******************************
+export const toggleTodo = async (req, res) => {
+  try {
+    // Get id by route params
+    const { id } = req.params;
+
+    // Validate id with Mongoose
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid To-do ID',
+      });
+    }
+
+    // Get current to-do by id
+    const todo = await Todo.findById(id);
+
+    // If todo not found
+    if (!todo) {
+      return res.status(404).json({
+        success: false,
+        message: 'To-do not found',
+      });
+    }
+
+    // Toggle isComplete field
+    todo.isCompleted = !todo.isCompleted;
+
+    await todo.save();
+
+    // If todo found and toggled
+    return res.status(200).json({
+      success: true,
+      message: 'To-do toggled successfully',
+      data: todo,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Internal Server Error',
+      error: error.message,
+    });
+  }
+};
