@@ -187,9 +187,12 @@ export const toggleTodo = async (req, res) => {
       });
     }
 
-    // Toggle isComplete field
+    // Toggle isComplete value
+    // if isCompleted is false, turns true
+    // if it's true, turns false
     todo.isCompleted = !todo.isCompleted;
 
+    // Save the changes made into database
     await todo.save();
 
     // If todo found and toggled
