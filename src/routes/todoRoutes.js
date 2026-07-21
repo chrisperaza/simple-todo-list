@@ -7,6 +7,7 @@ import {
   getTodoById,
   updateTodo,
   toggleTodo,
+  deleteTodo,
 } from '../controllers/todoController.js';
 
 const router = express.Router();
@@ -35,6 +36,11 @@ router.put('/:id', updateTodo);
 // **** TOGGLE TO-DO (PATCH) ****
 // ******************************
 router.patch('/:id/toggle', toggleTodo);
+
+// ******************************
+// **** DELETE TO-DO (DELETE) ****
+// ******************************
+router.delete('/:id', deleteTodo);
 
 // Export router
 export default router;
