@@ -165,7 +165,7 @@ export const updateTodo = async (req, res) => {
 // ******************************
 export const toggleTodo = async (req, res) => {
   try {
-    // Get id by route params
+    // Get id from route params
     const { id } = req.params;
 
     // Validate id with Mongoose
@@ -196,6 +196,48 @@ export const toggleTodo = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: 'To-do toggled successfully',
+      data: todo,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Internal Server Error',
+      error: error.message,
+    });
+  }
+};
+
+// ******************************
+// **** DELETE TO-DO (DELETE) ****
+// ******************************
+export const deleteTodo = async (req, res) => {
+  try {
+    // Get id from route params
+    const { id } = req.params;
+
+    // Validate id with Mongoose
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid To-do ID',
+      });
+    }
+
+    // Delete to-do by id
+    const todo = await Todo.findByIdAndDelete(id);
+
+    // If todo not found
+    if (!todo) {
+      return res.status(404).json({
+        success: false,
+        message: 'To-do not found',
+      });
+    }
+
+    // If todo found and deleted
+    return res.status(200).json({
+      success: true,
+      message: 'To-do deleted successfully',
       data: todo,
     });
   } catch (error) {
